@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13th Youth Italian Baseball Week FVG</title>
+<meta property="og:title" content="13th Youth Italian Baseball Week FVG">
+<meta property="og:description" content="Torneo U12 — Ronchi dei Legionari (GO), 9-12 Luglio 2026">
+<style>
+  :root{
+    --navy:#0c2340;
+    --navy2:#132c52;
+    --navy3:#1c3b64;
+    --orange:#ffffff;
+    --orange2:#e8ecf2;
+    --gray:#8b93a1;
+    --white:#f5f6f8;
+    --live:#ff3b3b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--navy);color:var(--white);}
+  body{
+    background-color:var(--navy);
+    background-image:repeating-linear-gradient(90deg, rgba(255,255,255,0.055) 0px, rgba(255,255,255,0.055) 1px, transparent 1px, transparent 9px);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    min-height:100vh;
+    padding-bottom:40px;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:20px 16px;}
+
+  /* ---- top nav (schedule/standings pages) ---- */
+  .topnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .home-btn{
+    display:flex;align-items:center;gap:6px;
+    border:1.5px solid var(--orange);color:var(--orange);
+    background:transparent;padding:8px 16px;border-radius:20px;
+    font-weight:700;font-size:14px;text-decoration:none;cursor:pointer;
+  }
+  .home-btn:active{background:rgba(232,93,4,0.15);}
+  .topnav h1{font-size:19px;font-weight:800;text-align:center;flex:1;}
+  .nav-logo{width:38px;height:38px;border-radius:50%;flex-shrink:0;}
+  .nav-spacer{width:38px;}
+
+  /* ---- homepage header ---- */
+  .home-header{text-align:center;padding:12px 0 8px;}
+  .logo{width:170px;height:170px;border-radius:50%;margin:0 auto 18px;display:block;
+    box-shadow:0 0 0 3px var(--orange), 0 8px 24px rgba(0,0,0,0.4);}
+  .title-1{font-size:15px;letter-spacing:2px;font-weight:700;color:var(--white);text-transform:uppercase;}
+  .title-2{font-size:34px;font-weight:900;color:var(--orange);text-transform:uppercase;line-height:1.1;margin:4px 0 10px;
+    text-shadow:0 2px 12px rgba(232,93,4,0.35);}
+  .title-3{font-size:15px;font-weight:700;color:var(--orange2);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+  .subtitle{font-size:14px;color:var(--gray);}
+
+  /* ---- news ---- */
+  .news-block{background:var(--orange);border-radius:14px;margin:20px 0;overflow:hidden;}
+  .news-title{text-align:center;font-weight:800;font-size:15px;letter-spacing:1px;padding:12px 0 8px;color:var(--navy);}
+  .ticker{background:var(--navy);overflow:hidden;white-space:nowrap;padding:12px 0;margin:0 6px 6px;border-radius:8px;}
+  .ticker-track{display:inline-block;padding-left:100%;animation:scroll-left 22s linear infinite;}
+  .ticker-track span{color:var(--orange2);font-weight:700;font-size:14px;margin-right:60px;}
+  @keyframes scroll-left{ from{transform:translateX(0);} to{transform:translateX(-100%);} }
+  @media (prefers-reduced-motion: reduce){ .ticker-track{animation:none;} }
+
+  /* ---- action buttons ---- */
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0;}
+  .action-card{
+    background:var(--navy2);border:1px solid var(--orange);border-radius:14px;
+    padding:20px 10px;text-align:center;text-decoration:none;color:var(--white);
+    cursor:pointer;transition:transform .15s ease;
+  }
+  .action-card:active{transform:scale(0.97);background:var(--navy3);}
+  .action-icon{width:30px;height:30px;margin:0 auto 8px;display:block;color:var(--orange2);}
+  .action-title{font-weight:800;font-size:14px;letter-spacing:1px;color:var(--orange2);}
+  .action-sub{font-size:12px;color:var(--gray);margin-top:2px;}
+
+  /* ---- live section ---- */
+  .live-header{display:flex;align-items:center;gap:8px;margin:26px 0 12px;}
+  .results-header{display:flex;align-items:center;gap:8px;margin:26px 0 12px;}
+  .results-header span{font-weight:800;letter-spacing:1px;color:var(--gray);font-size:14px;}
+  .live-dot{width:9px;height:9px;border-radius:50%;background:var(--live);animation:pulse 1.4s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .live-header span{font-weight:800;letter-spacing:1px;color:var(--orange2);font-size:14px;}
+  .empty-note{color:var(--gray);font-size:13px;padding:14px 4px;}
+
+  /* ---- match card ---- */
+  .match-card{
+    background:var(--navy2);border:1px solid rgba(232,93,4,0.35);border-radius:12px;
+    padding:14px 16px;margin-bottom:10px;
+  }
+  .match-card.is-live{border-color:var(--live);}
+  .match-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .match-teams{font-weight:700;font-size:15px;}
+  .match-teams .vs{color:var(--gray);font-weight:500;font-size:13px;margin:0 4px;}
+  .badge{font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.5px;}
+  .badge.live{background:var(--live);color:#fff;}
+  .badge.final{background:#3a4258;color:var(--gray);}
+  .match-bottom{display:flex;justify-content:space-between;align-items:center;}
+  .match-meta{font-size:12px;color:var(--gray);display:flex;align-items:center;gap:6px;}
+  .inning-arrow{font-size:11px;}
+  .score{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;}
+  .score.live{color:var(--live);}
+  .score.final{color:var(--gray);}
+  .score.scheduled{color:var(--white);opacity:.5;}
+  .posto-tag{display:inline-block;margin-top:8px;font-size:11px;color:var(--orange2);font-weight:700;
+    border:1px solid var(--orange);border-radius:20px;padding:2px 10px;}
+
+  /* ---- day tabs ---- */
+  .tabs{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;padding-bottom:2px;}
+  .tab{
+    flex:1;text-align:center;padding:11px 6px;border-radius:10px;border:1px solid var(--navy3);
+    background:var(--navy2);color:var(--gray);font-weight:700;font-size:12.5px;letter-spacing:.5px;
+    cursor:pointer;white-space:nowrap;
+  }
+  .tab.active{background:var(--orange);color:var(--navy);border-color:var(--orange);}
+
+  .campo-label{color:var(--orange2);font-weight:800;font-size:13px;letter-spacing:1px;margin:18px 0 8px;}
+  .campo-label:first-child{margin-top:0;}
+
+  /* ---- standings ---- */
+  .girone-label{background:#000000aa;border-left:4px solid var(--orange);color:var(--orange2);
+    font-weight:800;font-size:14px;letter-spacing:1px;padding:12px 14px;border-radius:8px;margin:20px 0 10px;}
+  .girone-label:first-child{margin-top:0;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{color:var(--gray);text-align:right;font-weight:700;font-size:11px;letter-spacing:.5px;padding:6px 4px;border-bottom:1px solid var(--navy3);}
+  th:first-child,td:first-child{text-align:left;}
+  td{padding:10px 4px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;font-weight:600;}
+  td:first-child{font-weight:700;}
+  td.pts{color:var(--orange2);font-weight:800;}
+
+  .loading{text-align:center;color:var(--gray);padding:40px 0;font-size:14px;}
+  .footer-note{text-align:center;color:var(--navy3);font-size:11px;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><div class="loading">Caricamento dati torneo…</div></div>
+
+<script>
+const GAMES_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuJYALcpr7NN7lLtK6aARx-qz1Ln3sHs_3CW-sEx2NEgO9-USBpLFVdYIbbhst13FzQcsca_X_Z2zE/pub?gid=0&single=true&output=csv";
+const TEAMS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuJYALcpr7NN7lLtK6aARx-qz1Ln3sHs_3CW-sEx2NEgO9-USBpLFVdYIbbhst13FzQcsca_X_Z2zE/pub?gid=407182075&single=true&output=csv";
+const NEWS_URL  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuJYALcpr7NN7lLtK6aARx-qz1Ln3sHs_3CW-sEx2NEgO9-USBpLFVdYIbbhst13FzQcsca_X_Z2zE/pub?gid=1004604854&single=true&output=csv";
+const CACHE_MS  = 60000;
+
+const DAY_ORDER = ["Giovedì","Venerdì","Sabato","Domenica"];
+
+let STATE = { games: [], teams: [], news: [], view: "home", day: null };
+
+/* ---------- CSV parsing (quote-safe) ---------- */
+function parseCSV(text){
+  const rows = [];
+  let row = [], field = "", inQuotes = false;
+  text = text.replace(/\r\n/g,"\n");
+  for(let i=0;i<text.length;i++){
+    const c = text[i];
+    if(inQuotes){
+      if(c === '"'){
+        if(text[i+1] === '"'){ field += '"'; i++; } else { inQuotes = false; }
+      } else field += c;
+    } else {
+      if(c === '"') inQuotes = true;
+      else if(c === ','){ row.push(field); field=""; }
+      else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=""; }
+      else field += c;
+    }
+  }
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  if(!rows.length) return [];
+  const headers = rows[0].map(h=>h.trim());
+  return rows.slice(1).filter(r=>r.some(v=>v && v.trim()!=="")).map(r=>{
+    const obj = {};
+    headers.forEach((h,idx)=> obj[h] = (r[idx]||"").trim());
+    return obj;
+  });
+}
+
+async function fetchCSV(url, key){
+  const cached = localStorage.getItem(key);
+  if(cached){
+    try{
+      const parsed = JSON.parse(cached);
+      if(Date.now() - parsed.ts < CACHE_MS) return parsed.data;
+    }catch(e){}
+  }
+  try{
+    const res = await fetch(url + (url.includes("?")?"&":"?") + "_ts=" + Date.now());
+    const text = await res.text();
+    const data = parseCSV(text);
+    localStorage.setItem(key, JSON.stringify({ts:Date.now(), data}));
+    return data;
+  }catch(e){
+    if(cached){ try{ return JSON.parse(cached).data; }catch(_){} }
+    return [];
+  }
+}
+
+async function loadAll(){
+  const [games, teams, news] = await Promise.all([
+    fetchCSV(GAMES_URL, "c_games"),
+    fetchCSV(TEAMS_URL, "c_teams"),
+    fetchCSV(NEWS_URL,  "c_news"),
+  ]);
+  STATE.games = games;
+  STATE.teams = teams;
+  STATE.news = news.filter(n => (n.Attivo||"").trim().toUpperCase()==="SI")
+                    .sort((a,b)=>(parseInt(a.Ordine)||0)-(parseInt(b.Ordine)||0));
+  if(!STATE.day){
+    const days = [...new Set(games.map(g=>g.Giorno))];
+    STATE.day = DAY_ORDER.find(d=>days.includes(d)) || days[0];
+  }
+  render();
+}
+
+/* ---------- helpers ---------- */
+function timeToMinutes(t){
+  if(!t) return 0;
+  const m = String(t).match(/(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM|am|pm)?/);
+  if(!m) return 0;
+  let h = parseInt(m[1],10);
+  const min = parseInt(m[2],10);
+  const ampm = m[4] ? m[4].toUpperCase() : null;
+  if(ampm === "PM" && h < 12) h += 12;
+  if(ampm === "AM" && h === 12) h = 0;
+  return h*60 + min;
+}
+function scoreClass(stato){
+  if(stato === "LIVE") return "live";
+  if(stato === "FINAL" || stato === "OFFICIAL") return "final";
+  return "scheduled";
+}
+function statusBadge(g){
+  if(g.Stato === "LIVE") return '<span class="badge live">LIVE</span>';
+  if(g.Stato === "FINAL") return '<span class="badge final">FINAL</span>';
+  if(g.Stato === "OFFICIAL") return '<span class="badge final">OFFICIAL</span>';
+  return "";
+}
+function inningLabel(g){
+  if(g.Stato !== "LIVE" || !g.Inning) return "";
+  const arrow = (g.Half||"").toUpperCase().startsWith("BOT") ? "▼" : "▲";
+  return `<span class="inning-arrow">${arrow}</span> ${ (g.Half||"").toUpperCase().startsWith("BOT")?"BOT":"TOP" } ${g.Inning}°`;
+}
+
+/* ---------- icons ---------- */
+const ICON_SCHEDULE = '<svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>';
+const ICON_STANDINGS = '<svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21V10M12 21V3M20 21v-7"/></svg>';
+function BASEBALL_ICON(cls){
+  return `
+    <svg class="${cls}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="47" fill="#f5f6f8" stroke="#c9ccd3" stroke-width="1.5"/>
+      <path d="M 28 8 Q 50 50 28 92" fill="none" stroke="var(--navy)" stroke-width="3" stroke-dasharray="5 4" stroke-linecap="round"/>
+      <path d="M 72 8 Q 50 50 72 92" fill="none" stroke="var(--navy)" stroke-width="3" stroke-dasharray="5 4" stroke-linecap="round"/>
+    </svg>`;
+}
+
+/* ---------- render: HOME ---------- */
+function renderHome(){
+  const liveGames = STATE.games.filter(g=>g.Stato==="LIVE");
+  const finalGames = STATE.games
+    .filter(g=>g.Stato==="FINAL"||g.Stato==="OFFICIAL")
+    .sort((a,b)=> (DAY_ORDER.indexOf(b.Giorno)-DAY_ORDER.indexOf(a.Giorno)) || (timeToMinutes(b.Ora)-timeToMinutes(a.Ora)));
+  const tickerItems = STATE.news.length
+    ? STATE.news.map(n=>`<span>${escapeHtml(n.Testo)}</span>`).join("")
+    : `<span>Benvenuti alla 13th Youth Italian Baseball Week FVG!</span>`;
+
+  return `
+    <div class="home-header">
+      ${BASEBALL_ICON("logo")}
+      <div class="title-2">U12</div>
+      <div class="subtitle">9–12 Luglio 2026</div>
+    </div>
+
+    <div class="news-block">
+      <div class="news-title">NEWS &amp; COMMUNICATIONS</div>
+      <div class="ticker"><div class="ticker-track">${tickerItems}${tickerItems}</div></div>
+    </div>
+
+    <div class="actions">
+      <div class="action-card" onclick="goTo('schedule')">
+        ${ICON_SCHEDULE}
+        <div class="action-title">SCHEDULE</div>
+        <div class="action-sub">Calendario e Orari</div>
+      </div>
+      <div class="action-card" onclick="goTo('standings')">
+        ${ICON_STANDINGS}
+        <div class="action-title">STANDINGS</div>
+        <div class="action-sub">Classifiche Gironi</div>
+      </div>
+    </div>
+
+    <div class="live-header"><div class="live-dot"></div><span>PARTITE IN CORSO</span></div>
+    ${ liveGames.length
+        ? liveGames.map(g=>matchCard(g)).join("")
+        : `<div class="empty-note">Nessuna partita live al momento.</div>` }
+
+    ${ finalGames.length ? `
+      <div class="results-header"><span>RISULTATI</span></div>
+      ${ finalGames.map(g=>matchCard(g)).join("") }
+    ` : "" }
+
+    <div class="footer-note">Aggiornato automaticamente ogni 60 secondi</div>
+  `;
+}
+
+function matchCard(g){
+  const sc = scoreClass(g.Stato);
+  return `
+    <div class="match-card ${g.Stato==='LIVE'?'is-live':''}">
+      <div class="match-top">
+        <div class="match-teams">${escapeHtml(g.Team_Casa)}<span class="vs">vs</span>${escapeHtml(g.Team_Ospite)}</div>
+        ${statusBadge(g)}
+      </div>
+      <div class="match-bottom">
+        <div class="match-meta">${g.Ora?escapeHtml(g.Ora)+" · ":""}${g.Campo||""}${inningLabel(g)?" · "+inningLabel(g):""}</div>
+        <div class="score ${sc}">${g.Punteggio_Casa||0} : ${g.Punteggio_Ospite||0}</div>
+      </div>
+      ${g.Posto_In_Palio ? `<div class="posto-tag">In palio: ${escapeHtml(g.Posto_In_Palio)}° posto</div>` : ""}
+    </div>
+  `;
+}
+
+/* ---------- render: SCHEDULE ---------- */
+function renderSchedule(){
+  const days = DAY_ORDER.filter(d => STATE.games.some(g=>g.Giorno===d));
+  const dayGames = STATE.games.filter(g=>g.Giorno===STATE.day)
+    .sort((a,b)=> timeToMinutes(a.Ora) - timeToMinutes(b.Ora));
+  const campi = [...new Set(dayGames.map(g=>g.Campo))].sort();
+
+  return `
+    ${topNav("Schedule &amp; Match")}
+    <div class="tabs">
+      ${days.map(d=>`<div class="tab ${d===STATE.day?'active':''}" onclick="setDay('${d}')">${d.toUpperCase()}</div>`).join("")}
+    </div>
+    ${ campi.map(campo => `
+      <div class="campo-label">${escapeHtml(campo)}</div>
+      ${ dayGames.filter(g=>g.Campo===campo).map(g=>matchCard(g)).join("") }
+    `).join("") }
+  `;
+}
+
+/* ---------- render: STANDINGS ---------- */
+function computeStandings(girone){
+  const teams = STATE.teams.filter(t=>t.Girone===girone).map(t=>t.Nome);
+  const rows = {};
+  teams.forEach(t=> rows[t] = {nome:t, pg:0,v:0,p:0,pf:0,ps:0,pts:0});
+
+  STATE.games
+    .filter(g=> g.Fase==="Gironi" && g.Girone===girone && (g.Stato==="FINAL"||g.Stato==="OFFICIAL"))
+    .forEach(g=>{
+      const casa = g.Team_Casa, osp = g.Team_Ospite;
+      const sc = parseInt(g.Punteggio_Casa)||0, so = parseInt(g.Punteggio_Ospite)||0;
+      if(!rows[casa]) rows[casa] = {nome:casa,pg:0,v:0,p:0,pf:0,ps:0,pts:0};
+      if(!rows[osp])  rows[osp]  = {nome:osp,pg:0,v:0,p:0,pf:0,ps:0,pts:0};
+      rows[casa].pg++; rows[osp].pg++;
+      rows[casa].pf+=sc; rows[casa].ps+=so;
+      rows[osp].pf+=so;  rows[osp].ps+=sc;
+      if(sc>so){ rows[casa].v++; rows[casa].pts+=2; rows[osp].p++; }
+      else if(so>sc){ rows[osp].v++; rows[osp].pts+=2; rows[casa].p++; }
+      else { rows[casa].pts+=1; rows[osp].pts+=1; }
+    });
+
+  return Object.values(rows).sort((a,b)=> b.pts-a.pts || (b.pf-b.ps)-(a.pf-a.ps));
+}
+
+function standingsTable(girone){
+  const data = computeStandings(girone);
+  if(!data.length) return "";
+  return `
+    <div class="girone-label">GIRONE ${girone}</div>
+    <table>
+      <thead><tr><th>SQUADRA</th><th>PG</th><th>V</th><th>P</th><th>PF</th><th>PS</th><th>PTS</th></tr></thead>
+      <tbody>
+        ${data.map(r=>`
+          <tr>
+            <td>${escapeHtml(r.nome)}</td>
+            <td>${r.pg}</td><td>${r.v}</td><td>${r.p}</td>
+            <td>${r.pf}</td><td>${r.ps}</td>
+            <td class="pts">${r.pts}</td>
+          </tr>`).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+function renderStandings(){
+  const gironi = [...new Set(STATE.teams.map(t=>t.Girone))].filter(Boolean).sort();
+  return `
+    ${topNav("Standings")}
+    ${ gironi.map(g=>standingsTable(g)).join("") }
+  `;
+}
+
+/* ---------- nav ---------- */
+function topNav(title){
+  return `
+    <div class="topnav">
+      <div class="home-btn" onclick="goTo('home')">← Home</div>
+      <h1>${title}</h1>
+      ${BASEBALL_ICON("nav-logo")}
+    </div>
+  `;
+}
+
+function escapeHtml(s){
+  return (s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function goTo(view){ STATE.view = view; render(); window.scrollTo(0,0); }
+function setDay(day){ STATE.day = day; render(); }
+
+function render(){
+  const app = document.getElementById("app");
+  if(STATE.view === "schedule") app.innerHTML = renderSchedule();
+  else if(STATE.view === "standings") app.innerHTML = renderStandings();
+  else app.innerHTML = renderHome();
+}
+
+loadAll();
+setInterval(loadAll, CACHE_MS);
+</script>
+</body>
+</html>
